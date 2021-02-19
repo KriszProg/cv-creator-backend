@@ -1,6 +1,7 @@
 package hu.kriszprog.cvcreatorbackend.controller;
 
 import hu.kriszprog.cvcreatorbackend.entity.CVTitle;
+import hu.kriszprog.cvcreatorbackend.model.CVTitleModel;
 import hu.kriszprog.cvcreatorbackend.service.CVProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,7 +20,7 @@ public class CVController {
     private CVProvider cvProvider;
 
     @GetMapping("/all")
-    public List<CVTitle> getAllCV() {
+    public List<CVTitleModel> getAllCV() {
         return cvProvider.getAllCV();
     }
 }
