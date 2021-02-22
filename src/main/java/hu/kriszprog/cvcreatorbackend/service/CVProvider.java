@@ -18,24 +18,37 @@ public class CVProvider {
 
     public List<CVTitleModel> getAllCV() {
         List<CVTitle> cvTitleList = cvTitleRepository.findAll();
-        return convertCVTitlesToCVTitleModels(cvTitleList);
-    }
-
-    private List<CVTitleModel> convertCVTitlesToCVTitleModels(List<CVTitle> cvTitleList) {
         List<CVTitleModel> cvTitleModelList = new ArrayList<>();
 
         for (CVTitle cvTitle : cvTitleList) {
-            String formattedDate = new SimpleDateFormat("yyyy-MM-dd" + " 'at' " + "HH:mm:ss")
-                    .format(cvTitle.getCreationDate());
-
-            cvTitleModelList.add(
-                    CVTitleModel.builder()
-                    .id(cvTitle.getId())
-                    .title(cvTitle.getTitle())
-                    .creationDate(formattedDate)
-                    .build()
-            );
+            cvTitleModelList.add(convertCVTitleToCVTitleModel(cvTitle));
         }
+
         return cvTitleModelList;
+    }
+
+    public CVTitleModel getCVById(Long id) {
+        CVTitle cvTitle = cvTitleRepository.getCVTitleById(id);
+        return convertCVTitleToCVTitleModel(cvTitle);
+    }
+
+    private CVTitleModel convertCVTitleToCVTitleModel(CVTitle cvTitle) {
+        String formattedDate = new SimpleDateFormat("yyyy-MM-dd" + " 'at' " + "HH:mm:ss")
+                .format(cvTitle.getCreationDate());
+
+        return CVTitleModel.builder()
+                .id(cvTitle.getId())
+                .title(cvTitle.getTitle())
+                .creationDate(formattedDate)
+                .build();
+    }
+
+    public CVTitleModel addNewCV(CVTitleModel cvTitleModel) {
+        CVTitle newCVTitle = cvTitleRepository.save(
+                CVTitle.builder()
+                .title(cvTitleModel.getTitle())
+                .build()
+        );
+        return convertCVTitleToCVTitleModel(newCVTitle);
     }
 }
