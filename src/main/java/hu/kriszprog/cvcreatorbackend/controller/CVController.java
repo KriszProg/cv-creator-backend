@@ -1,6 +1,7 @@
 package hu.kriszprog.cvcreatorbackend.controller;
 
-import hu.kriszprog.cvcreatorbackend.model.CVTitleModel;
+import hu.kriszprog.cvcreatorbackend.model.CVModel;
+import hu.kriszprog.cvcreatorbackend.model.CVIdentifiersModel;
 import hu.kriszprog.cvcreatorbackend.service.CVProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,19 +17,17 @@ public class CVController {
     private CVProvider cvProvider;
 
     @GetMapping("/all")
-    public List<CVTitleModel> getAllCV() {
-        return cvProvider.getAllCV();
+    public List<CVIdentifiersModel> getAllCVIdentifiers() {
+        return cvProvider.getAllCVIdentifiers();
     }
 
     @GetMapping("/{cv_id}")
-    public CVTitleModel getCVById(@PathVariable("cv_id") Long id) {
+    public CVModel getCVById(@PathVariable("cv_id") Long id) {
         return cvProvider.getCVById(id);
     }
 
     @PostMapping("/add")
-    public CVTitleModel addNewCVTitle(@RequestBody CVTitleModel cvTitleModel) {
-        CVTitleModel model = cvProvider.addNewCV(cvTitleModel);
-        System.out.println(model);
-        return model;
+    public CVIdentifiersModel addNewCVTitle(@RequestBody CVIdentifiersModel cvIdentifiersModel) {
+        return cvProvider.addNewCV(cvIdentifiersModel);
     }
 }
