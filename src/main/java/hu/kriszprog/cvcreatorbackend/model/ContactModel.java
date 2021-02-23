@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CVTitleModel {
+public class ContactModel {
 
     private Long id;
-    private String title;
-    private String creationDate;
+    private String email;
+    private String phoneNr;
+    private String linkedInProfile;
 
 }
