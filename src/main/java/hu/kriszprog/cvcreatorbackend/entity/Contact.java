@@ -1,5 +1,6 @@
 package hu.kriszprog.cvcreatorbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,9 +24,7 @@ public class Contact {
     private String linkedInProfile;
 
     @OneToMany(mappedBy = "contact", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @Transient
+    @JsonIgnore
     private List<CV> cvList;
 
 }

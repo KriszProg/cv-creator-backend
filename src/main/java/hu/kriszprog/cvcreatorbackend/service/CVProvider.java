@@ -47,9 +47,9 @@ public class CVProvider {
 
         return CVModel.builder()
                 .cvIdentifiers(cvIdentifiers)
-                .candidate(convertCandidateToCandidateModel(candidate))
-                .contact(convertContactToContactModel(contact))
-                .selfDefinition(convertSelfDefinitionToSelfDefinitionModel(selfDefinition))
+                .candidate(candidate)
+                .contact(contact)
+                .selfDefinition(selfDefinition)
                 .build();
     }
 
@@ -64,41 +64,7 @@ public class CVProvider {
                 .build();
     }
 
-    private CandidateModel convertCandidateToCandidateModel(Candidate candidate) {
-        if (candidate == null) {
-            return null;
-        }
 
-        return CandidateModel.builder()
-                .id(candidate.getId())
-                .name(candidate.getName())
-                .role(candidate.getRole())
-                .build();
-    }
-
-    private ContactModel convertContactToContactModel(Contact contact) {
-        if (contact == null) {
-            return null;
-        }
-
-        return ContactModel.builder()
-                .id(contact.getId())
-                .email(contact.getEmail())
-                .phoneNr(contact.getPhoneNr())
-                .linkedInProfile(contact.getLinkedInProfile())
-                .build();
-    }
-
-    private SelfDefinitionModel convertSelfDefinitionToSelfDefinitionModel(SelfDefinition selfDefinition) {
-        if (selfDefinition == null) {
-            return null;
-        }
-
-        return SelfDefinitionModel.builder()
-                .id(selfDefinition.getId())
-                .selfDefinition(selfDefinition.getSelfDefinition())
-                .build();
-    }
 
     public CVIdentifiersModel addNewCV(CVIdentifiersModel cvIdentifiersModel) {
         CV newCV = cvRepository.save(

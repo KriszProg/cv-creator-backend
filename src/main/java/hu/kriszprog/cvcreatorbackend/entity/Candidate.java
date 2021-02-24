@@ -1,5 +1,6 @@
 package hu.kriszprog.cvcreatorbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,10 +21,8 @@ public class Candidate {
 
     private String role;
 
-    @OneToMany(mappedBy = "candidate", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    @Transient
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "candidate", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
     private List<CV> cvList;
 
 }
