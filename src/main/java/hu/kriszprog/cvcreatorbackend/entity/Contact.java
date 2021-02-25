@@ -24,6 +24,7 @@ public class Contact {
     private String linkedInProfile;
 
     @OneToMany(mappedBy = "contact", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @Transient
     @JsonIgnore
     private List<CV> cvList;
 

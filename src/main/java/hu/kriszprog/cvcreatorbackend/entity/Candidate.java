@@ -22,6 +22,7 @@ public class Candidate {
     private String role;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "candidate", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @Transient
     @JsonIgnore
     private List<CV> cvList;
 
