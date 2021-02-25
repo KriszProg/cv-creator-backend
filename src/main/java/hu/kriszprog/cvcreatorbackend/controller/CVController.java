@@ -1,5 +1,9 @@
 package hu.kriszprog.cvcreatorbackend.controller;
 
+import hu.kriszprog.cvcreatorbackend.entity.Candidate;
+import hu.kriszprog.cvcreatorbackend.entity.MentorOpinion;
+import hu.kriszprog.cvcreatorbackend.entity.SelfDefinition;
+import hu.kriszprog.cvcreatorbackend.entity.Strength;
 import hu.kriszprog.cvcreatorbackend.model.CVModel;
 import hu.kriszprog.cvcreatorbackend.model.CVIdentifiersModel;
 import hu.kriszprog.cvcreatorbackend.service.CVProvider;
@@ -29,5 +33,34 @@ public class CVController {
     @PostMapping("/add")
     public CVIdentifiersModel addNewCVTitle(@RequestBody CVIdentifiersModel cvIdentifiersModel) {
         return cvProvider.addNewCV(cvIdentifiersModel);
+    }
+
+    @GetMapping("/candidate")
+    public List<Candidate> getAllCandidates() {
+        return cvProvider.getAllCandidate();
+    }
+    //TODO: Is POST appropriate or should I use another Mapping?
+    @PostMapping("/{cv_id}/add-candidate")
+    public String updateCandidateInCV(@PathVariable("cv_id") Long id, @RequestBody Candidate candidate) {
+        cvProvider.updateCandidateInCV(id, candidate);
+        return ("ok");
+    }
+
+    @PostMapping("/{cv_id}/update/self-definition")
+    public String updateSelfDefinitionInCV(@PathVariable("cv_id") Long id, @RequestBody SelfDefinition selfDefinition) {
+        cvProvider.updateSelfDefinitionInCV(id, selfDefinition);
+        return ("ok");
+    }
+
+    @PostMapping("/{cv_id}/update/strength")
+    public String updateStrengthInCV(@PathVariable("cv_id") Long id, @RequestBody Strength strength) {
+        cvProvider.updateStrengthInCV(id, strength);
+        return ("ok");
+    }
+
+    @PostMapping("/{cv_id}/update/mentor-opinion")
+    public String updateMentorOpinionInCV(@PathVariable("cv_id") Long id, @RequestBody MentorOpinion mentorOpinion) {
+        cvProvider.updateMentorOpinionInCV(id, mentorOpinion);
+        return ("ok");
     }
 }

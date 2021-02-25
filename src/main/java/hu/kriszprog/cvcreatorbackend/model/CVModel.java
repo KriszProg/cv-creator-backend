@@ -1,8 +1,6 @@
 package hu.kriszprog.cvcreatorbackend.model;
 
-import hu.kriszprog.cvcreatorbackend.entity.Candidate;
-import hu.kriszprog.cvcreatorbackend.entity.Contact;
-import hu.kriszprog.cvcreatorbackend.entity.SelfDefinition;
+import hu.kriszprog.cvcreatorbackend.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,5 +16,7 @@ public class CVModel {
     private CVIdentifiersModel cvIdentifiers;
     private Contact contact;
     private SelfDefinition selfDefinition;
+    private Strength strength;
+    private MentorOpinion mentorOpinion;
 
 }

@@ -21,6 +21,7 @@ public class SelfDefinition {
     private String selfDefinition;
 
     @OneToMany(mappedBy = "selfDefinition", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @Transient
     @JsonIgnore
     private List<CV> cvList;
 

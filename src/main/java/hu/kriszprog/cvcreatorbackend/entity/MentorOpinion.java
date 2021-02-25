@@ -1,7 +1,10 @@
 package hu.kriszprog.cvcreatorbackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,19 +14,16 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Contact {
+public class MentorOpinion {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    private String email;
+    @Column(columnDefinition = "text")
+    private String mentorOpinion;
 
-    private String phoneNr;
-
-    private String linkedInProfile;
-
-    @OneToMany(mappedBy = "contact", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "mentorOpinion", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @Transient
     @JsonIgnore
     private List<CV> cvList;

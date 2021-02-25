@@ -1,9 +1,6 @@
 package hu.kriszprog.cvcreatorbackend.service;
 
-import hu.kriszprog.cvcreatorbackend.entity.CV;
-import hu.kriszprog.cvcreatorbackend.entity.Candidate;
-import hu.kriszprog.cvcreatorbackend.entity.Contact;
-import hu.kriszprog.cvcreatorbackend.entity.SelfDefinition;
+import hu.kriszprog.cvcreatorbackend.entity.*;
 import hu.kriszprog.cvcreatorbackend.model.*;
 import hu.kriszprog.cvcreatorbackend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +25,12 @@ public class CVProvider {
     @Autowired
     private SelfDefinitionRepository selfDefinitionRepository;
 
+    @Autowired
+    private StrengthRepository strengthRepository;
+
+    @Autowired
+    private MentorOpinionRepository mentorOpinionRepository;
+
     public List<CVIdentifiersModel> getAllCVIdentifiers() {
         List<CV> cvList = cvRepository.findAll();
         List<CVIdentifiersModel> cvIdentifiersList = new ArrayList<>();
@@ -44,12 +47,16 @@ public class CVProvider {
         Candidate candidate = candidateRepository.getCandidateById(cvRepository.getCandidateIdByCVId(id));
         Contact contact = contactRepository.getContactById(cvRepository.getContactIdByCVId(id));
         SelfDefinition selfDefinition = selfDefinitionRepository.getSelfDefinitionById(cvRepository.getSelfDefinitionIdByCVId(id));
+        Strength strength = strengthRepository.getStrengthById(cvRepository.getStrengthIdByCVId(id));
+        MentorOpinion mentorOpinion = mentorOpinionRepository.getMentorOpinionById(cvRepository.getMentorOpinionIdByCVId(id));
 
         return CVModel.builder()
                 .cvIdentifiers(cvIdentifiers)
                 .candidate(candidate)
                 .contact(contact)
                 .selfDefinition(selfDefinition)
+                .strength(strength)
+                .mentorOpinion(mentorOpinion)
                 .build();
     }
 
@@ -64,7 +71,9 @@ public class CVProvider {
                 .build();
     }
 
-
+    public List<Candidate> getAllCandidate() {
+        return candidateRepository.findAll();
+    }
 
     public CVIdentifiersModel addNewCV(CVIdentifiersModel cvIdentifiersModel) {
         CV newCV = cvRepository.save(
@@ -73,5 +82,62 @@ public class CVProvider {
                 .build()
         );
         return extractIdentifiersFromCV(newCV);
+    }
+
+    public void updateCandidateInCV(Long id, Candidate candidate) {
+        CV existedCV = cvRepository.getCVById(id);
+        existedCV.setCandidate(candidate);
+        cvRepository.save(existedCV);
+    }
+
+    public void updateSelfDefinitionInCV(Long id, SelfDefinition selfDefinition) {
+        CV existedCV = cvRepository.getCVById(id);
+        SelfDefinition existedSelfDefinition = selfDefinitionRepository.getSelfDefinitionIfExist(selfDefinition.getSelfDefinition());
+        SelfDefinition selfDefinitionForUpdate;
+
+        if (existedSelfDefinition == null) {
+             selfDefinitionForUpdate = SelfDefinition.builder()
+                    .selfDefinition(selfDefinition.getSelfDefinition())
+                    .build();
+            selfDefinitionRepository.save(selfDefinitionForUpdate);
+        } else {
+            selfDefinitionForUpdate = existedSelfDefinition;
+        }
+        existedCV.setSelfDefinition(selfDefinitionForUpdate);
+        cvRepository.save(existedCV);
+    }
+
+    public void updateStrengthInCV(Long id, Strength strength) {
+        CV existedCV = cvRepository.getCVById(id);
+        Strength existedStrength = strengthRepository.getStrengthIfExist(strength.getStrength());
+        Strength strengthForUpdate;
+
+        if (existedStrength == null) {
+            strengthForUpdate = Strength.builder()
+                    .strength(strength.getStrength())
+                    .build();
+            strengthRepository.save(strengthForUpdate);
+        } else {
+            strengthForUpdate = existedStrength;
+        }
+        existedCV.setStrength(strengthForUpdate);
+        cvRepository.save(existedCV);
+    }
+
+    public void updateMentorOpinionInCV(Long id, MentorOpinion mentorOpinion) {
+        CV existedCV = cvRepository.getCVById(id);
+        MentorOpinion existedMentorOpinion = mentorOpinionRepository.getMentorOpinionIfExist(mentorOpinion.getMentorOpinion());
+        MentorOpinion mentorOpinionForUpdate;
+
+        if (existedMentorOpinion == null) {
+            mentorOpinionForUpdate = MentorOpinion.builder()
+                    .mentorOpinion(mentorOpinion.getMentorOpinion())
+                    .build();
+            mentorOpinionRepository.save(mentorOpinionForUpdate);
+        } else {
+            mentorOpinionForUpdate = existedMentorOpinion;
+        }
+        existedCV.setMentorOpinion(mentorOpinionForUpdate);
+        cvRepository.save(existedCV);
     }
 }
