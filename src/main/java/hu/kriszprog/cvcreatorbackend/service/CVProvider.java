@@ -140,4 +140,28 @@ public class CVProvider {
         existedCV.setMentorOpinion(mentorOpinionForUpdate);
         cvRepository.save(existedCV);
     }
+
+    public void updateContactInCV(Long id, Contact contact) {
+        CV existedCV = cvRepository.getCVById(id);
+        Contact existedContact = contactRepository.getContactIfExist(
+                contact.getEmail(),
+                contact.getPhoneNr(),
+                contact.getLinkedInProfile()
+        );
+        System.out.println("existedContact: " + existedContact);
+        Contact contactForUpdate;
+
+        if (existedContact == null) {
+            contactForUpdate = Contact.builder()
+                    .email(contact.getEmail())
+                    .phoneNr(contact.getPhoneNr())
+                    .linkedInProfile(contact.getLinkedInProfile())
+                    .build();
+            contactRepository.save(contactForUpdate);
+        } else {
+            contactForUpdate = existedContact;
+        }
+        existedCV.setContact(contactForUpdate);
+        cvRepository.save(existedCV);
+    }
 }

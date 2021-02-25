@@ -1,9 +1,6 @@
 package hu.kriszprog.cvcreatorbackend.controller;
 
-import hu.kriszprog.cvcreatorbackend.entity.Candidate;
-import hu.kriszprog.cvcreatorbackend.entity.MentorOpinion;
-import hu.kriszprog.cvcreatorbackend.entity.SelfDefinition;
-import hu.kriszprog.cvcreatorbackend.entity.Strength;
+import hu.kriszprog.cvcreatorbackend.entity.*;
 import hu.kriszprog.cvcreatorbackend.model.CVModel;
 import hu.kriszprog.cvcreatorbackend.model.CVIdentifiersModel;
 import hu.kriszprog.cvcreatorbackend.service.CVProvider;
@@ -61,6 +58,12 @@ public class CVController {
     @PostMapping("/{cv_id}/update/mentor-opinion")
     public String updateMentorOpinionInCV(@PathVariable("cv_id") Long id, @RequestBody MentorOpinion mentorOpinion) {
         cvProvider.updateMentorOpinionInCV(id, mentorOpinion);
+        return ("ok");
+    }
+
+    @PostMapping("/{cv_id}/update/contact")
+    public String updateContactInCV(@PathVariable("cv_id") Long id, @RequestBody Contact contact) {
+        cvProvider.updateContactInCV(id, contact);
         return ("ok");
     }
 }
