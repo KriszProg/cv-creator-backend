@@ -29,4 +29,10 @@ public class CV {
 
     @ManyToOne
     private SelfDefinition selfDefinition;
+
+    @ManyToOne
+    private Strength strength;
+
+    @ManyToOne
+    private MentorOpinion mentorOpinion;
 }
