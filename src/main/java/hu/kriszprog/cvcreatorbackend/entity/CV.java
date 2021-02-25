@@ -1,9 +1,6 @@
 package hu.kriszprog.cvcreatorbackend.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -13,7 +10,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 @Entity
-public class CVTitle {
+public class CV {
 
     @Id
     @GeneratedValue
@@ -23,4 +20,13 @@ public class CVTitle {
 
     @Builder.Default
     private Timestamp creationDate = new Timestamp(System.currentTimeMillis());
+
+    @ManyToOne
+    private Candidate candidate;
+
+    @ManyToOne
+    private Contact contact;
+
+    @ManyToOne
+    private SelfDefinition selfDefinition;
 }
