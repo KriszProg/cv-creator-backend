@@ -164,4 +164,37 @@ public class CVProvider {
         existedCV.setContact(contactForUpdate);
         cvRepository.save(existedCV);
     }
+
+    public void updateTitleAndCandidateInCV(Long id, String title, Candidate candidate) {
+        CV existedCV = cvRepository.getCVById(id);
+        updateTitleInCV(title, existedCV);
+        updateCandidateInCV(candidate, existedCV);
+    }
+
+    private void updateTitleInCV(String title, CV existedCV) {
+        if (!existedCV.getTitle().equals(title)) {
+            existedCV.setTitle(title);
+            cvRepository.save(existedCV);
+        }
+    }
+
+    private void updateCandidateInCV(Candidate candidate, CV existedCV) {
+        Candidate existedCandidate = candidateRepository.getCandidateIfExist(
+                candidate.getName(),
+                candidate.getRole()
+        );
+        Candidate candidateForUpdate;
+
+        if (existedCandidate == null) {
+            candidateForUpdate = Candidate.builder()
+                    .name(candidate.getName())
+                    .role(candidate.getRole())
+                    .build();
+            candidateRepository.save(candidateForUpdate);
+        } else {
+            candidateForUpdate = existedCandidate;
+        }
+        existedCV.setCandidate(candidateForUpdate);
+        cvRepository.save(existedCV);
+    }
 }

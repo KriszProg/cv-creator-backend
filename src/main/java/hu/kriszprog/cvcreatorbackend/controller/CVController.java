@@ -66,4 +66,10 @@ public class CVController {
         cvProvider.updateContactInCV(id, contact);
         return ("ok");
     }
+
+    @PostMapping("/{cv_id}/update/title-and-candidate")
+    public String updateTitleAndCandidateInCV(@PathVariable("cv_id") Long id, @RequestBody CV cv) {
+        cvProvider.updateTitleAndCandidateInCV(id, cv.getTitle(), cv.getCandidate());
+        return ("ok");
+    }
 }
