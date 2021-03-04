@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CVModel {
 
+    private Image background;
+    private Image profilePhoto;
     private Candidate candidate;
     private CVIdentifiersModel cvIdentifiers;
     private Contact contact;

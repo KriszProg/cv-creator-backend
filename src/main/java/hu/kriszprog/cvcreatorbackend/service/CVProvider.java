@@ -17,6 +17,9 @@ public class CVProvider {
     private CVRepository cvRepository;
 
     @Autowired
+    private ImageRepository imageRepository;
+
+    @Autowired
     private CandidateRepository candidateRepository;
 
     @Autowired
@@ -44,6 +47,8 @@ public class CVProvider {
 
     public CVModel getCVById(Long id) {
         CVIdentifiersModel cvIdentifiers = extractIdentifiersFromCV(cvRepository.getCVById(id));
+        Image background = imageRepository.getImageById(cvRepository.getBackgroundIdByCVId(id));
+        Image profilePhoto = imageRepository.getImageById(cvRepository.getProfilePhotoIdByCVId(id));
         Candidate candidate = candidateRepository.getCandidateById(cvRepository.getCandidateIdByCVId(id));
         Contact contact = contactRepository.getContactById(cvRepository.getContactIdByCVId(id));
         SelfDefinition selfDefinition = selfDefinitionRepository.getSelfDefinitionById(cvRepository.getSelfDefinitionIdByCVId(id));
@@ -52,6 +57,8 @@ public class CVProvider {
 
         return CVModel.builder()
                 .cvIdentifiers(cvIdentifiers)
+                .background(background)
+                .profilePhoto(profilePhoto)
                 .candidate(candidate)
                 .contact(contact)
                 .selfDefinition(selfDefinition)
@@ -148,7 +155,6 @@ public class CVProvider {
                 contact.getPhoneNr(),
                 contact.getLinkedInProfile()
         );
-        System.out.println("existedContact: " + existedContact);
         Contact contactForUpdate;
 
         if (existedContact == null) {
@@ -197,4 +203,31 @@ public class CVProvider {
         existedCV.setCandidate(candidateForUpdate);
         cvRepository.save(existedCV);
     }
+
+    public void updateImageInCV(Long id, Image image) {
+        CV existedCV = cvRepository.getCVById(id);
+        Image existedImage = imageRepository.getImageIfExist(image.getImageType(), image.getUrl());
+        Image imageForUpdate;
+
+        if (existedImage == null) {
+            imageForUpdate = Image.builder()
+                    .imageType(image.getImageType())
+                    .url(image.getUrl())
+                    .build();
+            imageRepository.save(imageForUpdate);
+        } else {
+            imageForUpdate = existedImage;
+        }
+
+        switch (image.getImageType()) {
+            case BACKGROUND:
+                existedCV.setBackground(imageForUpdate);
+                break;
+            case PROFILE_PHOTO:
+                existedCV.setProfilePhoto(imageForUpdate);
+                break;
+        }
+        cvRepository.save(existedCV);
+    }
+
 }

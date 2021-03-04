@@ -26,10 +26,33 @@ public class DBInitializer {
     @Autowired
     private SelfDefinitionRepository selfDefinitionRepository;
 
+    @Autowired
+    private StrengthRepository strengthRepository;
+
+    @Autowired
+    private MentorOpinionRepository mentorOpinionRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DBInitializer.class);
 
     @PostConstruct
     public void postConstruct() {
+        Image background1 = Image.builder()
+                .imageType(ImageType.BACKGROUND)
+                .url("https://res.cloudinary.com/kpimgstore/image/upload/v1614847692/testbackground.jpg")
+                .build();
+
+        Image profilePhoto1 = Image.builder()
+                .imageType(ImageType.PROFILE_PHOTO)
+                .url("https://res.cloudinary.com/kpimgstore/image/upload/v1614847548/testprofilephoto.jpg")
+                .build();
+
+        //Save IMAGES
+        imageRepository.save(background1);
+        imageRepository.save(profilePhoto1);
+
         Candidate candidate1 = Candidate.builder()
                 .name("Krisztián Kovács")
                 .role("Full Stack Developer")
@@ -63,13 +86,33 @@ public class DBInitializer {
         //Save SELF_DEFINITION(S)
         selfDefinitionRepository.save(selfDefinition1);
 
+        Strength strength1 = Strength.builder()
+                .strength("Has experience with Docker and container technologies and everything in-between. Good " +
+                        "at presentations especially when it comes to backend discussions.")
+                .build();
+
+        //Save STRENGTH(S)
+        strengthRepository.save(strength1);
+
+        MentorOpinion mentorOpinion1 = MentorOpinion.builder()
+                .mentorOpinion("Mentor opinion is shared across all generated CVs and it's your mentor's job to " +
+                        "write one.")
+                .build();
+
+        //Save MENTOR_OPINION(S)
+        mentorOpinionRepository.save(mentorOpinion1);
+
         List<CV> cvList = new ArrayList<>();
 
         cvList.add(CV.builder()
                 .title("CV for Google")
+                .background(background1)
+                .profilePhoto(profilePhoto1)
                 .candidate(candidate1)
                 .contact(contact1)
                 .selfDefinition(selfDefinition1)
+                .strength(strength1)
+                .mentorOpinion(mentorOpinion1)
                 .build());
 
         cvList.add(CV.builder()
