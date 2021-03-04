@@ -72,4 +72,10 @@ public class CVController {
         cvProvider.updateTitleAndCandidateInCV(id, cv.getTitle(), cv.getCandidate());
         return ("ok");
     }
+
+    @PostMapping("/{cv_id}/update/image")
+    public String updateImageInCV(@PathVariable("cv_id") Long id, @RequestBody Image image) {
+        cvProvider.updateImageInCV(id, image);
+        return ("ok");
+    }
 }
