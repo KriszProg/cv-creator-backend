@@ -22,6 +22,12 @@ public class CV {
     private Timestamp creationDate = new Timestamp(System.currentTimeMillis());
 
     @ManyToOne
+    private Image profilePhoto;
+
+    @ManyToOne
+    private Image background;
+
+    @ManyToOne
     private Candidate candidate;
 
     @ManyToOne
