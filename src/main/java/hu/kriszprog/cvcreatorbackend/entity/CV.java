@@ -34,11 +34,12 @@ public class CV {
     private Contact contact;
 
     @ManyToOne
-    private SelfDefinition selfDefinition;
+    private PersonalInfo persInf1;
 
     @ManyToOne
-    private Strength strength;
+    private PersonalInfo persInf2;
 
     @ManyToOne
-    private MentorOpinion mentorOpinion;
+    private PersonalInfo persInf3;
+
 }
