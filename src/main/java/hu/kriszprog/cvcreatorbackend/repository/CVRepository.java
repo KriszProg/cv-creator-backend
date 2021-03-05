@@ -20,12 +20,12 @@ public interface CVRepository extends JpaRepository<CV, Long> {
     @Query("SELECT contact.id FROM CV WHERE id = :CVId")
     Long getContactIdByCVId(@Param("CVId") Long id);
 
-    @Query("SELECT selfDefinition.id FROM CV WHERE id = :CVId")
-    Long getSelfDefinitionIdByCVId(@Param("CVId") Long id);
+    @Query("SELECT persInf1.id FROM CV WHERE id = :CVId")
+    Long getPersInf1IdByCVId(@Param("CVId") Long id);
 
-    @Query("SELECT strength.id FROM CV WHERE id = :CVId")
-    Long getStrengthIdByCVId(@Param("CVId") Long id);
+    @Query("SELECT persInf2.id FROM CV WHERE id = :CVId")
+    Long getPersInf2IdByCVId(@Param("CVId") Long id);
 
-    @Query("SELECT mentorOpinion.id FROM CV WHERE id = :CVId")
-    Long getMentorOpinionIdByCVId(@Param("CVId") Long id);
+    @Query("SELECT persInf3.id FROM CV WHERE id = :CVId")
+    Long getPersInf3IdByCVId(@Param("CVId") Long id);
 }

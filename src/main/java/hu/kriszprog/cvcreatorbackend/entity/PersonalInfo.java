@@ -14,16 +14,21 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Strength {
+public class PersonalInfo {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @Column(columnDefinition = "text")
-    private String strength;
+    @Enumerated(EnumType.STRING)
+    private PersonalInfoType personalInfoType;
 
-    @OneToMany(mappedBy = "strength", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private String sectionTitle;
+
+    @Column(columnDefinition = "text")
+    private String text;
+
+    @OneToMany(mappedBy = "personalInfo", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @Transient
     @JsonIgnore
     private List<CV> cvList;

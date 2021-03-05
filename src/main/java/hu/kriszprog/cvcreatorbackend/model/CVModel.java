@@ -17,8 +17,8 @@ public class CVModel {
     private Candidate candidate;
     private CVIdentifiersModel cvIdentifiers;
     private Contact contact;
-    private SelfDefinition selfDefinition;
-    private Strength strength;
-    private MentorOpinion mentorOpinion;
+    private PersonalInfo persInf1;
+    private PersonalInfo persInf2;
+    private PersonalInfo persInf3;
 
 }
