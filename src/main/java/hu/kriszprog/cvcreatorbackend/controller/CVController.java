@@ -32,32 +32,20 @@ public class CVController {
         return cvProvider.addNewCV(cvIdentifiersModel);
     }
 
+    @PostMapping("/{cv_id}/update/title-and-candidate")
+    public String updateTitleAndCandidateInCV(@PathVariable("cv_id") Long id, @RequestBody CV cv) {
+        cvProvider.updateTitleAndCandidateInCV(id, cv.getTitle(), cv.getCandidate());
+        return ("ok");
+    }
+
     @GetMapping("/candidate")
     public List<Candidate> getAllCandidates() {
         return cvProvider.getAllCandidate();
     }
-    //TODO: Is POST appropriate or should I use another Mapping?
-    @PostMapping("/{cv_id}/add-candidate")
-    public String updateCandidateInCV(@PathVariable("cv_id") Long id, @RequestBody Candidate candidate) {
-        cvProvider.updateCandidateInCV(id, candidate);
-        return ("ok");
-    }
 
-    @PostMapping("/{cv_id}/update/self-definition")
-    public String updateSelfDefinitionInCV(@PathVariable("cv_id") Long id, @RequestBody SelfDefinition selfDefinition) {
-        cvProvider.updateSelfDefinitionInCV(id, selfDefinition);
-        return ("ok");
-    }
-
-    @PostMapping("/{cv_id}/update/strength")
-    public String updateStrengthInCV(@PathVariable("cv_id") Long id, @RequestBody Strength strength) {
-        cvProvider.updateStrengthInCV(id, strength);
-        return ("ok");
-    }
-
-    @PostMapping("/{cv_id}/update/mentor-opinion")
-    public String updateMentorOpinionInCV(@PathVariable("cv_id") Long id, @RequestBody MentorOpinion mentorOpinion) {
-        cvProvider.updateMentorOpinionInCV(id, mentorOpinion);
+    @PostMapping("/{cv_id}/update/image")
+    public String updateImageInCV(@PathVariable("cv_id") Long id, @RequestBody Image image) {
+        cvProvider.updateImageInCV(id, image);
         return ("ok");
     }
 
@@ -67,15 +55,11 @@ public class CVController {
         return ("ok");
     }
 
-    @PostMapping("/{cv_id}/update/title-and-candidate")
-    public String updateTitleAndCandidateInCV(@PathVariable("cv_id") Long id, @RequestBody CV cv) {
-        cvProvider.updateTitleAndCandidateInCV(id, cv.getTitle(), cv.getCandidate());
-        return ("ok");
-    }
-
-    @PostMapping("/{cv_id}/update/image")
-    public String updateImageInCV(@PathVariable("cv_id") Long id, @RequestBody Image image) {
-        cvProvider.updateImageInCV(id, image);
+    @PostMapping("/{cv_id}/update/personal-info")
+    public String updatePersonalInfoInCV(@PathVariable("cv_id") Long id, @RequestBody PersonalInfo personalInfo) {
+        System.out.println("Post request arrived...");
+        System.out.println("Incoming personal info: " + personalInfo);
+        cvProvider.updatePersonalInfoInCV(id, personalInfo);
         return ("ok");
     }
 }

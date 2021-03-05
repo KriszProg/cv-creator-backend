@@ -26,13 +26,7 @@ public class CVProvider {
     private ContactRepository contactRepository;
 
     @Autowired
-    private SelfDefinitionRepository selfDefinitionRepository;
-
-    @Autowired
-    private StrengthRepository strengthRepository;
-
-    @Autowired
-    private MentorOpinionRepository mentorOpinionRepository;
+    private PersonalInfoRepository personalInfoRepository;
 
     public List<CVIdentifiersModel> getAllCVIdentifiers() {
         List<CV> cvList = cvRepository.findAll();
@@ -51,9 +45,10 @@ public class CVProvider {
         Image profilePhoto = imageRepository.getImageById(cvRepository.getProfilePhotoIdByCVId(id));
         Candidate candidate = candidateRepository.getCandidateById(cvRepository.getCandidateIdByCVId(id));
         Contact contact = contactRepository.getContactById(cvRepository.getContactIdByCVId(id));
-        SelfDefinition selfDefinition = selfDefinitionRepository.getSelfDefinitionById(cvRepository.getSelfDefinitionIdByCVId(id));
-        Strength strength = strengthRepository.getStrengthById(cvRepository.getStrengthIdByCVId(id));
-        MentorOpinion mentorOpinion = mentorOpinionRepository.getMentorOpinionById(cvRepository.getMentorOpinionIdByCVId(id));
+
+        PersonalInfo section1 = personalInfoRepository.getPersonalInfoById(cvRepository.getPersInf1IdByCVId(id));
+        PersonalInfo section2 = personalInfoRepository.getPersonalInfoById(cvRepository.getPersInf2IdByCVId(id));
+        PersonalInfo section3 = personalInfoRepository.getPersonalInfoById(cvRepository.getPersInf3IdByCVId(id));
 
         return CVModel.builder()
                 .cvIdentifiers(cvIdentifiers)
@@ -61,9 +56,9 @@ public class CVProvider {
                 .profilePhoto(profilePhoto)
                 .candidate(candidate)
                 .contact(contact)
-                .selfDefinition(selfDefinition)
-                .strength(strength)
-                .mentorOpinion(mentorOpinion)
+                .persInf1(section1)
+                .persInf2(section2)
+                .persInf3(section3)
                 .build();
     }
 
@@ -78,97 +73,13 @@ public class CVProvider {
                 .build();
     }
 
-    public List<Candidate> getAllCandidate() {
-        return candidateRepository.findAll();
-    }
-
     public CVIdentifiersModel addNewCV(CVIdentifiersModel cvIdentifiersModel) {
         CV newCV = cvRepository.save(
                 CV.builder()
-                .title(cvIdentifiersModel.getTitle())
-                .build()
+                    .title(cvIdentifiersModel.getTitle())
+                    .build()
         );
         return extractIdentifiersFromCV(newCV);
-    }
-
-    public void updateCandidateInCV(Long id, Candidate candidate) {
-        CV existedCV = cvRepository.getCVById(id);
-        existedCV.setCandidate(candidate);
-        cvRepository.save(existedCV);
-    }
-
-    public void updateSelfDefinitionInCV(Long id, SelfDefinition selfDefinition) {
-        CV existedCV = cvRepository.getCVById(id);
-        SelfDefinition existedSelfDefinition = selfDefinitionRepository.getSelfDefinitionIfExist(selfDefinition.getSelfDefinition());
-        SelfDefinition selfDefinitionForUpdate;
-
-        if (existedSelfDefinition == null) {
-             selfDefinitionForUpdate = SelfDefinition.builder()
-                    .selfDefinition(selfDefinition.getSelfDefinition())
-                    .build();
-            selfDefinitionRepository.save(selfDefinitionForUpdate);
-        } else {
-            selfDefinitionForUpdate = existedSelfDefinition;
-        }
-        existedCV.setSelfDefinition(selfDefinitionForUpdate);
-        cvRepository.save(existedCV);
-    }
-
-    public void updateStrengthInCV(Long id, Strength strength) {
-        CV existedCV = cvRepository.getCVById(id);
-        Strength existedStrength = strengthRepository.getStrengthIfExist(strength.getStrength());
-        Strength strengthForUpdate;
-
-        if (existedStrength == null) {
-            strengthForUpdate = Strength.builder()
-                    .strength(strength.getStrength())
-                    .build();
-            strengthRepository.save(strengthForUpdate);
-        } else {
-            strengthForUpdate = existedStrength;
-        }
-        existedCV.setStrength(strengthForUpdate);
-        cvRepository.save(existedCV);
-    }
-
-    public void updateMentorOpinionInCV(Long id, MentorOpinion mentorOpinion) {
-        CV existedCV = cvRepository.getCVById(id);
-        MentorOpinion existedMentorOpinion = mentorOpinionRepository.getMentorOpinionIfExist(mentorOpinion.getMentorOpinion());
-        MentorOpinion mentorOpinionForUpdate;
-
-        if (existedMentorOpinion == null) {
-            mentorOpinionForUpdate = MentorOpinion.builder()
-                    .mentorOpinion(mentorOpinion.getMentorOpinion())
-                    .build();
-            mentorOpinionRepository.save(mentorOpinionForUpdate);
-        } else {
-            mentorOpinionForUpdate = existedMentorOpinion;
-        }
-        existedCV.setMentorOpinion(mentorOpinionForUpdate);
-        cvRepository.save(existedCV);
-    }
-
-    public void updateContactInCV(Long id, Contact contact) {
-        CV existedCV = cvRepository.getCVById(id);
-        Contact existedContact = contactRepository.getContactIfExist(
-                contact.getEmail(),
-                contact.getPhoneNr(),
-                contact.getLinkedInProfile()
-        );
-        Contact contactForUpdate;
-
-        if (existedContact == null) {
-            contactForUpdate = Contact.builder()
-                    .email(contact.getEmail())
-                    .phoneNr(contact.getPhoneNr())
-                    .linkedInProfile(contact.getLinkedInProfile())
-                    .build();
-            contactRepository.save(contactForUpdate);
-        } else {
-            contactForUpdate = existedContact;
-        }
-        existedCV.setContact(contactForUpdate);
-        cvRepository.save(existedCV);
     }
 
     public void updateTitleAndCandidateInCV(Long id, String title, Candidate candidate) {
@@ -204,6 +115,10 @@ public class CVProvider {
         cvRepository.save(existedCV);
     }
 
+    public List<Candidate> getAllCandidate() {
+        return candidateRepository.findAll();
+    }
+
     public void updateImageInCV(Long id, Image image) {
         CV existedCV = cvRepository.getCVById(id);
         Image existedImage = imageRepository.getImageIfExist(image.getImageType(), image.getUrl());
@@ -225,6 +140,66 @@ public class CVProvider {
                 break;
             case PROFILE_PHOTO:
                 existedCV.setProfilePhoto(imageForUpdate);
+                break;
+        }
+        cvRepository.save(existedCV);
+    }
+
+    public void updateContactInCV(Long id, Contact contact) {
+        CV existedCV = cvRepository.getCVById(id);
+        Contact existedContact = contactRepository.getContactIfExist(
+                contact.getEmail(),
+                contact.getPhoneNr(),
+                contact.getLinkedInProfile()
+        );
+        Contact contactForUpdate;
+
+        if (existedContact == null) {
+            contactForUpdate = Contact.builder()
+                    .email(contact.getEmail())
+                    .phoneNr(contact.getPhoneNr())
+                    .linkedInProfile(contact.getLinkedInProfile())
+                    .build();
+            contactRepository.save(contactForUpdate);
+        } else {
+            contactForUpdate = existedContact;
+        }
+        existedCV.setContact(contactForUpdate);
+        cvRepository.save(existedCV);
+    }
+
+    public void updatePersonalInfoInCV(Long id, PersonalInfo personalInfo) {
+        CV existedCV = cvRepository.getCVById(id);
+        PersonalInfo existedPersonalInfo = personalInfoRepository.getPersonalInfoIfExist(
+                personalInfo.getPersonalInfoType(),
+                personalInfo.getSectionTitle(),
+                personalInfo.getText()
+        );
+        PersonalInfo personalInfoForUpdate;
+
+        if (existedPersonalInfo == null) {
+            System.out.println("Incoming PersonalInfo not exist...");
+            personalInfoForUpdate = PersonalInfo.builder()
+                    .personalInfoType(personalInfo.getPersonalInfoType())
+                    .sectionTitle(personalInfo.getSectionTitle())
+                    .text(personalInfo.getText())
+                    .build();
+            personalInfoRepository.save(personalInfoForUpdate);
+            System.out.println("Newly created PersonalInfo is: " + personalInfoForUpdate);
+        } else {
+            System.out.println("Incoming PersonalInfo already exist...");
+            personalInfoForUpdate = existedPersonalInfo;
+        }
+
+        switch (personalInfo.getPersonalInfoType()) {
+            case PERS_INF_1:
+                existedCV.setPersInf1(personalInfoForUpdate);
+                break;
+            case PERS_INF_2:
+                existedCV.setPersInf2(personalInfoForUpdate);
+                break;
+            case PERS_INF_3:
+                existedCV.setPersInf3(personalInfoForUpdate);
                 break;
         }
         cvRepository.save(existedCV);
