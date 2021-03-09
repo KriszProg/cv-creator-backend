@@ -1,9 +1,11 @@
 package hu.kriszprog.cvcreatorbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -42,4 +44,6 @@ public class CV {
     @ManyToOne
     private PersonalInfo persInf3;
 
+    @ManyToMany
+    private List<Project> projectList;
 }
