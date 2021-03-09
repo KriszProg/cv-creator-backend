@@ -29,6 +29,9 @@ public class DBInitializer {
     @Autowired
     private ImageRepository imageRepository;
 
+    @Autowired
+    private ProjectRepository projectRepository;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DBInitializer.class);
 
     @PostConstruct
@@ -136,6 +139,29 @@ public class DBInitializer {
         personalInfoRepository.save(personalInfo2);
         personalInfoRepository.save(personalInfo3);
 
+        List<Project> projectList = new ArrayList<>();
+
+        projectList.add(Project.builder()
+                .title("Garage Store")
+                .url1("https://github.com/KriszProg/garage-store")
+                .description("In this Team Work project we\\'ve implemented a Microservice Architecture...")
+                .build());
+
+        projectList.add(Project.builder()
+                .title("Harry Potter (Backend)")
+                .url1("https://github.com/KriszProg/harry-potter-backend")
+                .description("This is a backend side App which provides informations about characters of...")
+                .build());
+
+        projectList.add(Project.builder()
+                .title("Harry Potter (Frontend)")
+                .url1("https://github.com/KriszProg/harry-potter-frontend")
+                .description("This is a ReactJs Web App which displays information about characters of....")
+                .build());
+
+        //Save PROJECTS
+        projectRepository.saveAll(projectList);
+
         List<CV> cvList = new ArrayList<>();
 
         cvList.add(CV.builder()
@@ -147,6 +173,7 @@ public class DBInitializer {
                 .persInf1(personalInfo1)
                 .persInf2(personalInfo2)
                 .persInf3(personalInfo3)
+                .projectList(projectList)
                 .build());
 
         cvList.add(CV.builder()
