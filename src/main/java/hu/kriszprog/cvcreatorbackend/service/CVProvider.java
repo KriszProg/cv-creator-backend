@@ -203,7 +203,33 @@ public class CVProvider {
     }
 
     public void updateProjectsInCV(Long id, List<Project> projectList) {
-        //TODO: implement method
+        CV existedCV = cvRepository.getCVById(id);
+        List<Project> projectListForUpdate = new ArrayList<>();
+
+        for (Project project : projectList) {
+            Project existedProject = projectRepository.getProjectIfExist(
+                    project.getTitle(),
+                    project.getUrl1(),
+                    project.getUrl2(),
+                    project.getDescription()
+                    );
+            Project projectForUpdate;
+
+            if (existedProject == null) {
+                projectForUpdate = Project.builder()
+                        .title(project.getTitle())
+                        .url1(project.getUrl1())
+                        .url2(project.getUrl2())
+                        .description(project.getDescription())
+                        .build();
+                projectRepository.save(projectForUpdate);
+            } else {
+                projectForUpdate = existedProject;
+            }
+            projectListForUpdate.add(projectForUpdate);
+        }
+        existedCV.setProjectList(projectListForUpdate);
+        cvRepository.save(existedCV);
     }
 
 }

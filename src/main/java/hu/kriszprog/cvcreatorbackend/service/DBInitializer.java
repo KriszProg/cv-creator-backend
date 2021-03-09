@@ -142,21 +142,30 @@ public class DBInitializer {
         List<Project> projectList = new ArrayList<>();
 
         projectList.add(Project.builder()
+                .title("CV Creator")
+                .url1("https://github.com/KriszProg/CV-creator-frontend")
+                .url2("https://github.com/KriszProg/cv-creator-backend")
+                .description("I've implemented a CV Creator web App in this private project, that you can use " +
+                        "to create your CV and save as PDF. Frontend: ReactJS, React-pdf, Cloudinary; Backend: " +
+                        "Java with SpringBoot, H2 database")
+                .build());
+
+        projectList.add(Project.builder()
                 .title("Garage Store")
                 .url1("https://github.com/KriszProg/garage-store")
-                .description("In this Team Work project we\\'ve implemented a Microservice Architecture...")
+                .url2("")
+                .description("In this Team Work project we've implemented a Microservice Architecture based on " +
+                        "the Netflix API Gateway Desing Pattern. Frontend: ReactJS; Backend: Java with SpringBoot, " +
+                        "H2 database, Eureka Server, and Zuul")
                 .build());
 
         projectList.add(Project.builder()
-                .title("Harry Potter (Backend)")
-                .url1("https://github.com/KriszProg/harry-potter-backend")
-                .description("This is a backend side App which provides informations about characters of...")
-                .build());
-
-        projectList.add(Project.builder()
-                .title("Harry Potter (Frontend)")
+                .title("Harry Potter")
                 .url1("https://github.com/KriszProg/harry-potter-frontend")
-                .description("This is a ReactJs Web App which displays information about characters of....")
+                .url2("https://github.com/KriszProg/harry-potter-backend")
+                .description("The Web App which we've implemented as a Team Work project displays information " +
+                        "about characters of Harry Potter movie in form of Cards. Frontend: ReactJs; Backend: " +
+                        "Java with SpringBoot, H2 database, Spring-Security, JWT for authorization")
                 .build());
 
         //Save PROJECTS
