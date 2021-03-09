@@ -40,25 +40,19 @@ public class CVProvider {
     }
 
     public CVModel getCVById(Long id) {
-        CVIdentifiersModel cvIdentifiers = extractIdentifiersFromCV(cvRepository.getCVById(id));
-        Image background = imageRepository.getImageById(cvRepository.getBackgroundIdByCVId(id));
-        Image profilePhoto = imageRepository.getImageById(cvRepository.getProfilePhotoIdByCVId(id));
-        Candidate candidate = candidateRepository.getCandidateById(cvRepository.getCandidateIdByCVId(id));
-        Contact contact = contactRepository.getContactById(cvRepository.getContactIdByCVId(id));
-
-        PersonalInfo section1 = personalInfoRepository.getPersonalInfoById(cvRepository.getPersInf1IdByCVId(id));
-        PersonalInfo section2 = personalInfoRepository.getPersonalInfoById(cvRepository.getPersInf2IdByCVId(id));
-        PersonalInfo section3 = personalInfoRepository.getPersonalInfoById(cvRepository.getPersInf3IdByCVId(id));
+        CV existedCV = cvRepository.getCVById(id);
+        CVIdentifiersModel cvIdentifiers = extractIdentifiersFromCV(existedCV);
 
         return CVModel.builder()
                 .cvIdentifiers(cvIdentifiers)
-                .background(background)
-                .profilePhoto(profilePhoto)
-                .candidate(candidate)
-                .contact(contact)
-                .persInf1(section1)
-                .persInf2(section2)
-                .persInf3(section3)
+                .background(existedCV.getBackground())
+                .profilePhoto(existedCV.getProfilePhoto())
+                .candidate(existedCV.getCandidate())
+                .contact(existedCV.getContact())
+                .persInf1(existedCV.getPersInf1())
+                .persInf2(existedCV.getPersInf2())
+                .persInf3(existedCV.getPersInf3())
+                .projectList(existedCV.getProjectList())
                 .build();
     }
 

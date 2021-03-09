@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface PersonalInfoRepository extends JpaRepository<PersonalInfo, Long> {
-    PersonalInfo getPersonalInfoById(Long id);
-
     @Query("SELECT pi FROM PersonalInfo pi " +
             "WHERE pi.personalInfoType = :personalInfoType " +
             "AND pi.sectionTitle = :sectionTitle " +
