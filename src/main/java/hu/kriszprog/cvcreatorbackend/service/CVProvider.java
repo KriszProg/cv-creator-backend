@@ -28,6 +28,9 @@ public class CVProvider {
     @Autowired
     private PersonalInfoRepository personalInfoRepository;
 
+    @Autowired
+    private ProjectRepository projectRepository;
+
     public List<CVIdentifiersModel> getAllCVIdentifiers() {
         List<CV> cvList = cvRepository.findAll();
         List<CVIdentifiersModel> cvIdentifiersList = new ArrayList<>();
@@ -197,6 +200,10 @@ public class CVProvider {
                 break;
         }
         cvRepository.save(existedCV);
+    }
+
+    public void updateProjectsInCV(Long id, List<Project> projectList) {
+        //TODO: implement method
     }
 
 }

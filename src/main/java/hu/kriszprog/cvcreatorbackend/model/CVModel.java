@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,5 +22,6 @@ public class CVModel {
     private PersonalInfo persInf1;
     private PersonalInfo persInf2;
     private PersonalInfo persInf3;
+    private List<Project> projectList;
 
 }
