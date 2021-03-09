@@ -57,9 +57,18 @@ public class CVController {
 
     @PostMapping("/{cv_id}/update/personal-info")
     public String updatePersonalInfoInCV(@PathVariable("cv_id") Long id, @RequestBody PersonalInfo personalInfo) {
-        System.out.println("Post request arrived...");
-        System.out.println("Incoming personal info: " + personalInfo);
         cvProvider.updatePersonalInfoInCV(id, personalInfo);
+        return ("ok");
+    }
+
+    @PostMapping("/{cv_id}/update/projects")
+    public String updateProjectsInCV(@PathVariable("cv_id") Long id, @RequestBody List<Project> projectList) {
+        System.out.println("Post request arrived...");
+        //Only for testing purposes:
+        for (Project project : projectList) {
+            System.out.println(project);
+        }
+        cvProvider.updateProjectsInCV(id, projectList);
         return ("ok");
     }
 }
