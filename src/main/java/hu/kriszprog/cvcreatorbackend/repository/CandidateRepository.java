@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface CandidateRepository extends JpaRepository<Candidate, Long> {
-    Candidate getCandidateById(Long id);
-
     @Query("SELECT c FROM Candidate c WHERE c.name = :name AND c.role = :role")
     Candidate getCandidateIfExist(@Param("name") String name, @Param("role") String role);
 }

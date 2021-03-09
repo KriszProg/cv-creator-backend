@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ContactRepository extends JpaRepository<Contact, Long> {
-    Contact getContactById(Long id);
-
     @Query("SELECT c FROM Contact c " +
             "WHERE c.email = :email " +
             "AND c.phoneNr = :phoneNr " +
