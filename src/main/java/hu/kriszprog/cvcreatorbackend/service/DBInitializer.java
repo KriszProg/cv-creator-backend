@@ -35,6 +35,9 @@ public class DBInitializer {
     @Autowired
     private JobRepository jobRepository;
 
+    @Autowired
+    private QualificationRepository qualificationRepository;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DBInitializer.class);
 
     @PostConstruct
@@ -200,6 +203,56 @@ public class DBInitializer {
         //Save JOBS
         jobRepository.saveAll(jobList);
 
+        List<Qualification> qualificationList = new ArrayList<>();
+
+        qualificationList.add(Qualification.builder()
+                .name("Junior Full Stack Developer")
+                .degree("Intermediate")
+                .yearFrom(2019)
+                .yearTo(2021)
+                .school("Codecool - Full Stack Developer Course")
+                .cityOfSchool("Budapest")
+                .build());
+
+        qualificationList.add(Qualification.builder()
+                .name("Customs Expert - based on the Union Customs Code")
+                .degree("Intermediate")
+                .yearFrom(2018)
+                .yearTo(2018)
+                .school("VJASZSZ - Authority Course")
+                .cityOfSchool("Budapest")
+                .build());
+
+        qualificationList.add(Qualification.builder()
+                .name("Dangerous Goods Transportation (ADR) Clerk")
+                .degree("Intermediate")
+                .yearFrom(2004)
+                .yearTo(2004)
+                .school("HVESZ Course")
+                .cityOfSchool("Budapest")
+                .build());
+
+        qualificationList.add(Qualification.builder()
+                .name("Customs Clerk")
+                .degree("Intermediate")
+                .yearFrom(1998)
+                .yearTo(1998)
+                .school("Kossuth Lajos Secondary School of Economics")
+                .cityOfSchool("Budapest")
+                .build());
+
+        qualificationList.add(Qualification.builder()
+                .name("Foreign Trade Clerk")
+                .degree("Intermediate")
+                .yearFrom(1997)
+                .yearTo(1998)
+                .school("Kossuth Lajos Secondary School of Economics")
+                .cityOfSchool("Budapest")
+                .build());
+
+        //Save QUALIFICATIONS
+        qualificationRepository.saveAll(qualificationList);
+
         List<CV> cvList = new ArrayList<>();
 
         cvList.add(CV.builder()
@@ -213,6 +266,7 @@ public class DBInitializer {
                 .persInf3(personalInfo3)
                 .projectList(projectList)
                 .jobList(jobList)
+                .qualificationList(qualificationList)
                 .build());
 
         cvList.add(CV.builder()

@@ -34,6 +34,9 @@ public class CVProvider {
     @Autowired
     private JobRepository jobRepository;
 
+    @Autowired
+    private QualificationRepository qualificationRepository;
+
     public List<CVIdentifiersModel> getAllCVIdentifiers() {
         List<CV> cvList = cvRepository.findAll();
         List<CVIdentifiersModel> cvIdentifiersList = new ArrayList<>();
@@ -60,6 +63,7 @@ public class CVProvider {
                 .persInf3(existedCV.getPersInf3())
                 .projectList(existedCV.getProjectList())
                 .jobList(existedCV.getJobList())
+                .qualificationList(existedCV.getQualificationList())
                 .build();
     }
 
@@ -263,6 +267,40 @@ public class CVProvider {
             jobListForUpdate.add(jobForUpdate);
         }
         existedCV.setJobList(jobListForUpdate);
+        cvRepository.save(existedCV);
+    }
+
+    public void updateQualificationsInCV(Long id, List<Qualification> qualificationList) {
+        CV existedCV = cvRepository.getCVById(id);
+        List<Qualification> qualificationListForUpdate = new ArrayList<>();
+
+        for (Qualification qualification : qualificationList) {
+            Qualification existedQualification = qualificationRepository.getQualificationIfExist(
+                    qualification.getName(),
+                    qualification.getDegree(),
+                    qualification.getYearFrom(),
+                    qualification.getYearTo(),
+                    qualification.getSchool(),
+                    qualification.getCityOfSchool()
+            );
+            Qualification qualificationForUpdate;
+
+            if (existedQualification == null) {
+                qualificationForUpdate = Qualification.builder()
+                        .name(qualification.getName())
+                        .degree(qualification.getDegree())
+                        .yearFrom(qualification.getYearFrom())
+                        .yearTo(qualification.getYearTo())
+                        .school(qualification.getSchool())
+                        .cityOfSchool(qualification.getCityOfSchool())
+                        .build();
+                qualificationRepository.save(qualificationForUpdate);
+            } else {
+                qualificationForUpdate = existedQualification;
+            }
+            qualificationListForUpdate.add(qualificationForUpdate);
+        }
+        existedCV.setQualificationList(qualificationListForUpdate);
         cvRepository.save(existedCV);
     }
 
