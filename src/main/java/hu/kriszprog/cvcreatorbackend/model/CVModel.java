@@ -24,5 +24,6 @@ public class CVModel {
     private PersonalInfo persInf3;
     private List<Project> projectList;
     private List<Job> jobList;
+    private List<Qualification> qualificationList;
 
 }

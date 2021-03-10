@@ -49,4 +49,7 @@ public class CV {
 
     @ManyToMany
     private List<Job> jobList;
+
+    @ManyToMany
+    private List<Qualification> qualificationList;
 }
