@@ -31,6 +31,9 @@ public class CVProvider {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    private JobRepository jobRepository;
+
     public List<CVIdentifiersModel> getAllCVIdentifiers() {
         List<CV> cvList = cvRepository.findAll();
         List<CVIdentifiersModel> cvIdentifiersList = new ArrayList<>();
@@ -56,6 +59,7 @@ public class CVProvider {
                 .persInf2(existedCV.getPersInf2())
                 .persInf3(existedCV.getPersInf3())
                 .projectList(existedCV.getProjectList())
+                .jobList(existedCV.getJobList())
                 .build();
     }
 
@@ -229,6 +233,36 @@ public class CVProvider {
             projectListForUpdate.add(projectForUpdate);
         }
         existedCV.setProjectList(projectListForUpdate);
+        cvRepository.save(existedCV);
+    }
+
+    public void updateJobsInCV(Long id, List<Job> jobList) {
+        CV existedCV = cvRepository.getCVById(id);
+        List<Job> jobListForUpdate = new ArrayList<>();
+
+        for (Job job : jobList) {
+            Job existedJob = jobRepository.getJobIfExist(
+                    job.getRole(),
+                    job.getYearFrom(),
+                    job.getYearTo(),
+                    job.getCompany()
+            );
+            Job jobForUpdate;
+
+            if (existedJob == null) {
+                jobForUpdate = Job.builder()
+                        .role(job.getRole())
+                        .yearFrom(job.getYearFrom())
+                        .yearTo(job.getYearTo())
+                        .company(job.getCompany())
+                        .build();
+                jobRepository.save(jobForUpdate);
+            } else {
+                jobForUpdate = existedJob;
+            }
+            jobListForUpdate.add(jobForUpdate);
+        }
+        existedCV.setJobList(jobListForUpdate);
         cvRepository.save(existedCV);
     }
 

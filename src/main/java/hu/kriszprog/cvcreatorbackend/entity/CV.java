@@ -46,4 +46,7 @@ public class CV {
 
     @ManyToMany
     private List<Project> projectList;
+
+    @ManyToMany
+    private List<Job> jobList;
 }
