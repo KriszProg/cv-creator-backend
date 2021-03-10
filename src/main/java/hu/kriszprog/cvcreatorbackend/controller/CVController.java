@@ -72,4 +72,10 @@ public class CVController {
         cvProvider.updateJobsInCV(id, jobList);
         return ("ok");
     }
+
+    @PostMapping("/{cv_id}/update/qualifications")
+    public String updateQualificationsInCV(@PathVariable("cv_id") Long id, @RequestBody List<Qualification> qualificationList) {
+        cvProvider.updateQualificationsInCV(id, qualificationList);
+        return ("ok");
+    }
 }
