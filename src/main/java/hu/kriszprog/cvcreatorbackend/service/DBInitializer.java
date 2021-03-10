@@ -32,6 +32,9 @@ public class DBInitializer {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    private JobRepository jobRepository;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DBInitializer.class);
 
     @PostConstruct
@@ -171,6 +174,32 @@ public class DBInitializer {
         //Save PROJECTS
         projectRepository.saveAll(projectList);
 
+        List<Job> jobList = new ArrayList<>();
+
+        jobList.add(Job.builder()
+                .role("Customs & ADR Department Manager, Quality Manager")
+                .yearFrom(2004)
+                .yearTo(2019)
+                .company("DSV Hungária Kft.")
+                .build());
+
+        jobList.add(Job.builder()
+                .role("Customs Team Leader")
+                .yearFrom(1999)
+                .yearTo(2004)
+                .company("Frans Maas Hungária Kft.")
+                .build());
+
+        jobList.add(Job.builder()
+                .role("Customs Clerk")
+                .yearFrom(1998)
+                .yearTo(1999)
+                .company("Frans Maas Hungária Kft.")
+                .build());
+
+        //Save JOBS
+        jobRepository.saveAll(jobList);
+
         List<CV> cvList = new ArrayList<>();
 
         cvList.add(CV.builder()
@@ -183,6 +212,7 @@ public class DBInitializer {
                 .persInf2(personalInfo2)
                 .persInf3(personalInfo3)
                 .projectList(projectList)
+                .jobList(jobList)
                 .build());
 
         cvList.add(CV.builder()
