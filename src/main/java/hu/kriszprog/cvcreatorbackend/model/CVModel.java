@@ -25,5 +25,6 @@ public class CVModel {
     private List<Project> projectList;
     private List<Job> jobList;
     private List<Qualification> qualificationList;
+    private List<Language> languageList;
 
 }

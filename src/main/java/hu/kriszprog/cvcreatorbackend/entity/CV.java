@@ -1,6 +1,5 @@
 package hu.kriszprog.cvcreatorbackend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -52,4 +51,7 @@ public class CV {
 
     @ManyToMany
     private List<Qualification> qualificationList;
+
+    @ManyToMany
+    private List<Language> languageList;
 }
