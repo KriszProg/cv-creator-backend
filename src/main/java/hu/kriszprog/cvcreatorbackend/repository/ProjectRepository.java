@@ -1,7 +1,5 @@
 package hu.kriszprog.cvcreatorbackend.repository;
 
-import hu.kriszprog.cvcreatorbackend.entity.PersonalInfo;
-import hu.kriszprog.cvcreatorbackend.entity.PersonalInfoType;
 import hu.kriszprog.cvcreatorbackend.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

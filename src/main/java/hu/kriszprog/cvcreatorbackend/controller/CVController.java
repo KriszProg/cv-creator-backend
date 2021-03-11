@@ -56,8 +56,8 @@ public class CVController {
     }
 
     @PostMapping("/{cv_id}/update/personal-info")
-    public String updatePersonalInfoInCV(@PathVariable("cv_id") Long id, @RequestBody PersonalInfo personalInfo) {
-        cvProvider.updatePersonalInfoInCV(id, personalInfo);
+    public String updatePersonalInfo2InCV(@PathVariable("cv_id") Long id, @RequestBody List<PersonalInfo> personalInfoList) {
+        cvProvider.updatePersonalInfosInCV(id, personalInfoList);
         return ("ok");
     }
 

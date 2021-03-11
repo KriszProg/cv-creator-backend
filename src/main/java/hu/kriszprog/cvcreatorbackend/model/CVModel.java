@@ -19,9 +19,7 @@ public class CVModel {
     private Candidate candidate;
     private CVIdentifiersModel cvIdentifiers;
     private Contact contact;
-    private PersonalInfo persInf1;
-    private PersonalInfo persInf2;
-    private PersonalInfo persInf3;
+    private List<PersonalInfo> personalInfoList;
     private List<Project> projectList;
     private List<Job> jobList;
     private List<Qualification> qualificationList;

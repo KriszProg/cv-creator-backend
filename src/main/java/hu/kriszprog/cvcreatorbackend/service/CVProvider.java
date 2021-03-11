@@ -61,9 +61,7 @@ public class CVProvider {
                 .profilePhoto(existedCV.getProfilePhoto())
                 .candidate(existedCV.getCandidate())
                 .contact(existedCV.getContact())
-                .persInf1(existedCV.getPersInf1())
-                .persInf2(existedCV.getPersInf2())
-                .persInf3(existedCV.getPersInf3())
+                .personalInfoList(existedCV.getPersonalInfoList())
                 .projectList(existedCV.getProjectList())
                 .jobList(existedCV.getJobList())
                 .qualificationList(existedCV.getQualificationList())
@@ -177,37 +175,29 @@ public class CVProvider {
         cvRepository.save(existedCV);
     }
 
-    public void updatePersonalInfoInCV(Long id, PersonalInfo personalInfo) {
+    public void updatePersonalInfosInCV(Long id, List<PersonalInfo> personalInfoList) {
         CV existedCV = cvRepository.getCVById(id);
-        PersonalInfo existedPersonalInfo = personalInfoRepository.getPersonalInfoIfExist(
-                personalInfo.getPersonalInfoType(),
-                personalInfo.getSectionTitle(),
-                personalInfo.getText()
-        );
-        PersonalInfo personalInfoForUpdate;
+        List<PersonalInfo> personalInfoListForUpdate = new ArrayList<>();
 
-        if (existedPersonalInfo == null) {
-            personalInfoForUpdate = PersonalInfo.builder()
-                    .personalInfoType(personalInfo.getPersonalInfoType())
-                    .sectionTitle(personalInfo.getSectionTitle())
-                    .text(personalInfo.getText())
-                    .build();
-            personalInfoRepository.save(personalInfoForUpdate);
-        } else {
-            personalInfoForUpdate = existedPersonalInfo;
-        }
+        for (PersonalInfo personalInfo : personalInfoList) {
+            PersonalInfo existedPersonalInfo = personalInfoRepository.getPersonalInfoIfExist(
+                    personalInfo.getSectionTitle(),
+                    personalInfo.getText()
+            );
+            PersonalInfo personalInfoForUpdate;
 
-        switch (personalInfo.getPersonalInfoType()) {
-            case PERS_INF_1:
-                existedCV.setPersInf1(personalInfoForUpdate);
-                break;
-            case PERS_INF_2:
-                existedCV.setPersInf2(personalInfoForUpdate);
-                break;
-            case PERS_INF_3:
-                existedCV.setPersInf3(personalInfoForUpdate);
-                break;
+            if (existedPersonalInfo == null) {
+                personalInfoForUpdate = PersonalInfo.builder()
+                        .sectionTitle(personalInfo.getSectionTitle())
+                        .text(personalInfo.getText())
+                        .build();
+                personalInfoRepository.save(personalInfoForUpdate);
+            } else {
+                personalInfoForUpdate = existedPersonalInfo;
+            }
+            personalInfoListForUpdate.add(personalInfoForUpdate);
         }
+        existedCV.setPersonalInfoList(personalInfoListForUpdate);
         cvRepository.save(existedCV);
     }
 

@@ -34,14 +34,8 @@ public class CV {
     @ManyToOne
     private Contact contact;
 
-    @ManyToOne
-    private PersonalInfo persInf1;
-
-    @ManyToOne
-    private PersonalInfo persInf2;
-
-    @ManyToOne
-    private PersonalInfo persInf3;
+    @ManyToMany
+    private List<PersonalInfo> personalInfoList;
 
     @ManyToMany
     private List<Project> projectList;

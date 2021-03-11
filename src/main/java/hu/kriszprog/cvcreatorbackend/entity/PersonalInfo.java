@@ -20,17 +20,13 @@ public class PersonalInfo {
     @GeneratedValue
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private PersonalInfoType personalInfoType;
-
     private String sectionTitle;
 
     @Column(columnDefinition = "text")
     private String text;
 
-    @OneToMany(mappedBy = "personalInfo", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @Transient
+    @ManyToMany(mappedBy = "personalInfoList", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonIgnore
+    @Transient
     private List<CV> cvList;
-
 }
