@@ -78,4 +78,10 @@ public class CVController {
         cvProvider.updateQualificationsInCV(id, qualificationList);
         return ("ok");
     }
+
+    @PostMapping("/{cv_id}/update/languages")
+    public String updateLanguagesInCV(@PathVariable("cv_id") Long id, @RequestBody List<Language> languageList) {
+        cvProvider.updateLanguagesInCV(id, languageList);
+        return ("ok");
+    }
 }
