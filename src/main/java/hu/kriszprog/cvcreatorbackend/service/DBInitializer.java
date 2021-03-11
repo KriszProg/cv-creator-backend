@@ -127,8 +127,9 @@ public class DBInitializer {
                 contact3)
         );
 
-        PersonalInfo personalInfo1 = PersonalInfo.builder()
-                .personalInfoType(PersonalInfoType.PERS_INF_1)
+        List<PersonalInfo> personalInfoList1 = new ArrayList<>();
+
+        personalInfoList1.add(PersonalInfo.builder()
                 .sectionTitle("Self Definition")
                 .text("I’m like a “flexible cube,” which means I know my own limits, but I’m open for " +
                         "changes and self-improvement. Some values which I consider as most important " +
@@ -140,10 +141,10 @@ public class DBInitializer {
                         "things, this led to choose software development as my future career. I like to " +
                         "spend my free time with friends and family, doing creative activities such" +
                         "as DIY, or act as a volunteer.")
-                .build();
+                .build()
+        );
 
-        PersonalInfo personalInfo2 = PersonalInfo.builder()
-                .personalInfoType(PersonalInfoType.PERS_INF_2)
+        personalInfoList1.add(PersonalInfo.builder()
                 .sectionTitle("Strength")
                 .text("Backend technologies are closer to me. I've worked with Java, SpringBoot, " +
                         "Hibernate, H2 and Postgresql, Maven, I know and used Git and Agile methodology " +
@@ -151,10 +152,10 @@ public class DBInitializer {
                         "as well. I consider following skills as my strengths: structuring, proper " +
                         "communication, strategic-approach, cooperation, teamwork, planning, organizing," +
                         "problem solving, process development.")
-                .build();
+                .build()
+        );
 
-        PersonalInfo personalInfo3 = PersonalInfo.builder()
-                .personalInfoType(PersonalInfoType.PERS_INF_3)
+        personalInfoList1.add(PersonalInfo.builder()
                 .sectionTitle("Mentor Opinion")
                 .text("'Krisztián is one of the most dedicated person I've ever met. He put enormous " +
                         "effort into learning and he does it consciously. He does not just focus on " +
@@ -162,40 +163,39 @@ public class DBInitializer {
                         "positive and constructive feedback frequently and open to receive ones which " +
                         "he can grow from. His communication is more than professional. He is assertive, " +
                         "friendly and helpful in the same time.' - Laszlo Terray, mentor")
-                .build();
+                .build()
+        );
 
-        PersonalInfo personalInfo4 = PersonalInfo.builder()
-                .personalInfoType(PersonalInfoType.PERS_INF_1)
+//        Save PERSONALINFO LIST1
+        personalInfoRepository.saveAll(personalInfoList1);
+
+        List<PersonalInfo> personalInfoList2 = new ArrayList<>();
+
+        personalInfoList2.add(PersonalInfo.builder()
                 .sectionTitle("Self Definition")
                 .text("I'm easy going and patient. Have a lot of hobbies and mostly social and outgoing. " +
                         "I maintain good relations with colleagues and usually I'm optimistic or in worst case " +
                         "realistic. I like to help others but not afraid to ask for help either, sometimes a bit " +
                         "stubborn though. Overall, I'm a good team-player.")
-                .build();
+                .build()
+        );
 
-        PersonalInfo personalInfo5 = PersonalInfo.builder()
-                .personalInfoType(PersonalInfoType.PERS_INF_2)
+        personalInfoList2.add(PersonalInfo.builder()
                 .sectionTitle("Strength")
                 .text("Has experience with Docker and container technologies and everything in-between. Good " +
                         "at presentations especially when it comes to backend discussions.")
-                .build();
+                .build()
+        );
 
-        PersonalInfo personalInfo6 = PersonalInfo.builder()
-                .personalInfoType(PersonalInfoType.PERS_INF_3)
+        personalInfoList2.add(PersonalInfo.builder()
                 .sectionTitle("Mentor Opinion")
                 .text("Mentor opinion is shared across all generated CVs and it's your mentor's job to " +
                         "write one.")
-                .build();
-
-        //Save PERSONAL_INFOS
-        personalInfoRepository.saveAll(Arrays.asList(
-                personalInfo1,
-                personalInfo2,
-                personalInfo3,
-                personalInfo4,
-                personalInfo5,
-                personalInfo6)
+                .build()
         );
+
+        // Save PERSONALINFO LIST2
+        personalInfoRepository.saveAll(personalInfoList2);
 
         List<Project> projectList = new ArrayList<>();
 
@@ -325,14 +325,12 @@ public class DBInitializer {
         List<CV> cvList = new ArrayList<>();
 
         cvList.add(CV.builder()
-                .title("CV CV Creator's site owner")
+                .title("CV of CV-Creator's owner")
                 .background(background1)
                 .profilePhoto(profilePhoto1)
                 .candidate(candidate1)
                 .contact(contact1)
-                .persInf1(personalInfo1)
-                .persInf2(personalInfo2)
-                .persInf3(personalInfo3)
+                .personalInfoList(personalInfoList1)
                 .projectList(projectList)
                 .jobList(jobList)
                 .qualificationList(qualificationList)
@@ -345,9 +343,7 @@ public class DBInitializer {
                 .profilePhoto(profilePhoto2)
                 .candidate(candidate2)
                 .contact(contact2)
-                .persInf1(personalInfo4)
-                .persInf2(personalInfo5)
-                .persInf3(personalInfo6)
+                .personalInfoList(personalInfoList2)
                 .build());
 
         cvList.add(CV.builder()
@@ -356,9 +352,7 @@ public class DBInitializer {
                 .profilePhoto(profilePhoto3)
                 .candidate(candidate3)
                 .contact(contact3)
-                .persInf1(personalInfo4)
-                .persInf2(personalInfo5)
-                .persInf3(personalInfo6)
+                .personalInfoList(personalInfoList2)
                 .build());
 
         cvList.add(CV.builder()
