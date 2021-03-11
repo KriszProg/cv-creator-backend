@@ -37,6 +37,9 @@ public class CVProvider {
     @Autowired
     private QualificationRepository qualificationRepository;
 
+    @Autowired
+    private LanguageRepository languageRepository;
+
     public List<CVIdentifiersModel> getAllCVIdentifiers() {
         List<CV> cvList = cvRepository.findAll();
         List<CVIdentifiersModel> cvIdentifiersList = new ArrayList<>();
@@ -64,6 +67,7 @@ public class CVProvider {
                 .projectList(existedCV.getProjectList())
                 .jobList(existedCV.getJobList())
                 .qualificationList(existedCV.getQualificationList())
+                .languageList(existedCV.getLanguageList())
                 .build();
     }
 
@@ -183,16 +187,13 @@ public class CVProvider {
         PersonalInfo personalInfoForUpdate;
 
         if (existedPersonalInfo == null) {
-            System.out.println("Incoming PersonalInfo not exist...");
             personalInfoForUpdate = PersonalInfo.builder()
                     .personalInfoType(personalInfo.getPersonalInfoType())
                     .sectionTitle(personalInfo.getSectionTitle())
                     .text(personalInfo.getText())
                     .build();
             personalInfoRepository.save(personalInfoForUpdate);
-            System.out.println("Newly created PersonalInfo is: " + personalInfoForUpdate);
         } else {
-            System.out.println("Incoming PersonalInfo already exist...");
             personalInfoForUpdate = existedPersonalInfo;
         }
 
@@ -301,6 +302,32 @@ public class CVProvider {
             qualificationListForUpdate.add(qualificationForUpdate);
         }
         existedCV.setQualificationList(qualificationListForUpdate);
+        cvRepository.save(existedCV);
+    }
+
+    public void updateLanguagesInCV(Long id, List<Language> languageList) {
+        CV existedCV = cvRepository.getCVById(id);
+        List<Language> languageListForUpdate = new ArrayList<>();
+
+        for (Language language : languageList) {
+            Language existedLanguage = languageRepository.getLanguageIfExist(
+                    language.getLanguage(),
+                    language.getLevel()
+            );
+            Language languageForUpdate;
+
+            if (existedLanguage == null) {
+                languageForUpdate = Language.builder()
+                        .language(language.getLanguage())
+                        .level(language.getLevel())
+                        .build();
+                languageRepository.save(languageForUpdate);
+            } else {
+                languageForUpdate = existedLanguage;
+            }
+            languageListForUpdate.add(languageForUpdate);
+        }
+        existedCV.setLanguageList(languageListForUpdate);
         cvRepository.save(existedCV);
     }
 
